@@ -21,21 +21,15 @@ const typeDefs = gql`
     moduleId: String! @external
   }
 
-  extend type SearchService @key(fields: "id") {
-    id: String! @external
-    searchResult: SearchResult @external
-    contentLayout: ContentLayout @external
-    # composite directive
-    postTopic: String @requires(fields: "searchResult { itemStacks }, contentLayout { moduleId rawConfig }")
+  type Topic {
+    searchResult: SearchResult
+    contentLayout: ContentLayout
+    postTopic: PostTopic
   }
 
   type PostTopic {
     id: String
     name: String
-  }
-
-  type Topic {
-    searchService: SearchService
   }
 `;
 
@@ -45,7 +39,10 @@ const resolvers = {
       return users[0];
     },
     topic() {
-      return 'Topic';
+      return {
+        id: 'id',
+        name: 'name',
+      };
     }
   },
   User: {
@@ -63,7 +60,9 @@ const resolvers = {
   },
   SearchService: {
     postTopic(parent) {
-      return `${parent?.contentLayout?.moduleId} has ${parent?.searchResult?.itemStacks?.length} items`;
+      // TODO. We really want to get data of contentLayout and searchResult here.
+      // return `${parent?.contentLayout?.moduleId} has ${parent?.searchResult?.itemStacks?.length} items`;
+      return parent;
     },
   }
 };

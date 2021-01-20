@@ -12,12 +12,25 @@ const typeDefs = gql`
     price: Int
     weight: Int
   }
+
+  type SearchResult @key(fields: "query") {
+    query: String!
+    itemStacks: [String]
+  }
 `;
 
 const resolvers = {
   Product: {
     __resolveReference(object) {
       return products.find(product => product.upc === object.upc);
+    }
+  },
+  SearchResult: {
+    __resolveReference(object) {
+      return {
+        query: object.query,
+        itemStacks: ['1', '2']
+      };
     }
   },
   Query: {

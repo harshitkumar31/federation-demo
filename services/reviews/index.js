@@ -20,20 +20,9 @@ const typeDefs = gql`
     reviews: [Review]
   }
 
-  type SearchResult @key(fields: "query") {
-    query: String!
-    itemStacks: [String]
-  }
-
   type ContentLayout @key(fields: "moduleId") {
     moduleId: String!
     rawConfig: String
-  }
-
-  type SearchService @key(fields: "id") {
-    id: String!
-    searchResult: SearchResult
-    contentLayout: ContentLayout
   }
 `;
 
@@ -60,24 +49,12 @@ const resolvers = {
       return reviews.filter(review => review.product.upc === product.upc);
     }
   },
-  SearchService: {
+  ContentLayout: {
     __resolveReference(object) {
-      return {};
-    },
-    searchResult() {
       return {
-        query: 'tv',
-        itemStacks: ['1', '2']
-      };
-    },
-    contentLayout() {
-      return {
-        moduleId: 'Search Result',
+        moduleId: object.moduleId,
         rawConfig: 'rawConfig'
       };
-    },
-    id() {
-      return 'id';
     },
   }
 };
