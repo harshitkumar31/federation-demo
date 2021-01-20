@@ -51,20 +51,24 @@ const resolvers = {
     }
   },
   Topic: {
-    searchService() {
+    searchResult() {
       return {
-        __typename: 'SearchService',
-        id: 'query'
+        __typename: 'SearchResult',
+        query: 'query'
       };
     },
-  },
-  SearchService: {
+    contentLayout() {
+      return {
+        __typename: 'ContentLayout',
+        moduleId: 'moduleId'
+      };
+    },
     postTopic(parent) {
       // TODO. We really want to get data of contentLayout and searchResult here.
       // return `${parent?.contentLayout?.moduleId} has ${parent?.searchResult?.itemStacks?.length} items`;
       return parent;
     },
-  }
+  },
 };
 
 const server = new ApolloServer({
