@@ -66,13 +66,13 @@ const resolvers = {
     },
     searchResult() {
       return {
-        query: 'object.query',
+        query: 'tv',
         itemStacks: ['1', '2']
       };
     },
     contentLayout() {
       return {
-        moduleId: 'object.moduleId',
+        moduleId: 'Search Result',
         rawConfig: 'rawConfig'
       };
     },

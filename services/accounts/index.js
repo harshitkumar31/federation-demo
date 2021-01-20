@@ -26,7 +26,7 @@ const typeDefs = gql`
     searchResult: SearchResult @external
     contentLayout: ContentLayout @external
     # composite directive
-    postTopic: String @requires(fields: "searchResult { itemStacks }, contentLayout { rawConfig }")
+    postTopic: String @requires(fields: "searchResult { itemStacks }, contentLayout { moduleId rawConfig }")
   }
 
   type PostTopic {
@@ -63,8 +63,7 @@ const resolvers = {
   },
   SearchService: {
     postTopic(parent) {
-      console.log('postTopic', parent);
-      return 'postTopic';
+      return `${parent?.contentLayout?.moduleId} has ${parent?.searchResult?.itemStacks?.length} items`;
     },
   }
 };
